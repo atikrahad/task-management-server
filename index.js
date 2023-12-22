@@ -24,7 +24,13 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    
+    const userCollection = client.db("taskmanagementDB").collection("users");
+
+    app.post("/user", async (req, res) => {
+      const userInfo = req.body;
+      const result = await userCollection.insertOne(userInfo);
+      res.send(result)
+    });
 
     await client.db("admin").command({ ping: 1 });
     console.log(
