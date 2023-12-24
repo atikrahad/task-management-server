@@ -40,6 +40,20 @@ async function run() {
       res.send(result)
     })
 
+    app.put("/task/:id", async (req, res)=> {
+      const id = req.params.id;
+      const item = req.body;
+      console.log(id, item);
+      const query = {_id: new ObjectId(id)}
+      const updateItem = {
+        $set: {
+          type: item.type
+        }
+      }
+      const result = await taskCollection.updateOne(query, updateItem)
+      res.send(result)
+    })
+
     app.post("/user", async (req, res) => {
       const userInfo = req.body;
       const result = await userCollection.insertOne(userInfo);
