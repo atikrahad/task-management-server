@@ -22,7 +22,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const userCollection = client.db("taskmanagementDB").collection("users");
     const taskCollection = client.db("taskmanagementDB").collection("tasks");
@@ -30,6 +30,11 @@ async function run() {
     app.get("/task", async(req, res)=> {
        const userInf = req.query.email;
        const result = await taskCollection.find({email: userInf}).toArray()
+       res.send(result)
+    })
+    app.get("/users", async(req, res)=> {
+       
+       const result = await userCollection.find().toArray()
        res.send(result)
     })
 
@@ -66,10 +71,10 @@ async function run() {
       res.send(result)
     });
 
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    // await client.db("admin").command({ ping: 1 });
+    // console.log(
+    //   "Pinged your deployment. You successfully connected to MongoDB!"
+    // );
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
